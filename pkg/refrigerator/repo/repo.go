@@ -32,3 +32,18 @@ func (r *repo) GetBeerByTitle(ctx context.Context, title string) (*refrigerator.
 
 	return beerToDomain(res), nil
 }
+
+func (r *repo) InsertBeer(ctx context.Context, beer *refrigerator.Beer) (int64, error) {
+	var res int64
+	_, err := r.db.QueryContext(ctx, &res,
+		`INSERT INTO beer (title, abv, expires_at)
+				VALUES (?, ?, ?)
+				RETURNING id;`,
+		beer.Title, beer.ABV, beer.ExpiresAt)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return res, nil
+}

@@ -1,18 +1,22 @@
 package service
 
 import (
-	refrigerator2 "BeerRefrigerator/pkg/refrigerator"
+	"BeerRefrigerator/pkg/refrigerator"
 	"context"
 )
 
 type service struct {
-	repo refrigerator2.Repo
+	repo refrigerator.Repo
 }
 
-func NewService(repo refrigerator2.Repo) *service {
+func NewService(repo refrigerator.Repo) *service {
 	return &service{repo}
 }
 
-func (s *service) GetBeerByTitle(ctx context.Context, title string) (*refrigerator2.Beer, error) {
+func (s *service) GetBeerByTitle(ctx context.Context, title string) (*refrigerator.Beer, error) {
 	return s.repo.GetBeerByTitle(ctx, title)
+}
+
+func (s *service) InsertBeer(ctx context.Context, beer *refrigerator.Beer) (int64, error) {
+	return s.repo.InsertBeer(ctx, beer)
 }
